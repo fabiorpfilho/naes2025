@@ -1,0 +1,64 @@
+{% extends "paginasweb/modelos/index.html" %}
+
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block header %}
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <span class="text-gradient d-inline">
+                {{ titulo }}
+            </span>
+         </div>
+    </div>
+</header>
+{% endblock header %}
+
+
+{% block conteudo %}
+
+<style>
+    form {
+        font-size: 120%;
+    }
+</style>
+
+<div class="row justify-content-center">
+
+    <div class="col-lg-6">
+
+        
+        <form action="" method="post">
+            
+            {% csrf_token %}
+            
+            {{ form|crispy }}
+
+            <h3 class="text-center">Dejesa excluir o registro abaixo?</h3>
+            
+            <br>
+
+            <h4 class="text-center border border-danger text-danger p-2 rounded">
+                {{ object }}
+            </h4>
+
+            <br>
+
+            <p class="text-center">
+
+                <button type="submit" class="btn btn-danger m-2">
+                    Excluir
+                </button>
+                <!-- Botão de voltar pelo histórico do js -->
+                <button type="button" class="btn btn-outline-dark m-2" onclick="history.back()">
+                    Voltar
+                </button>
+            </p>
+            
+        </form>
+        
+    </div>
+</div>
+
+{% endblock conteudo %}
