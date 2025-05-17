@@ -35,7 +35,7 @@ class Produto(models.Model):
     
     
     def __str__(self):
-        return f'{self.nome} ({self.sub_categoria.nome})'
+        return f'{self.nome} - R${self.preco}'
     
     class Meta:
         ordering = ["nome"]
@@ -60,7 +60,14 @@ class Usuario(models.Model):
     )
 
     def __str__(self):
-        return f'{self.nome} ({self.get_tipo_display()})'
+        return f'{self.nome}'
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        # Verifica se o email já está sendo usado como username em auth_user
+        if User.objects.filter(username=email).exists():
+            raise forms.ValidationError("Este e-mail já está registrado.")
+        return email
     
 
 class StatusPedido(models.TextChoices):
@@ -78,10 +85,13 @@ class Pedido(models.Model):
     data_pedido = models.DateTimeField(auto_now_add=True)
     total= models.DecimalField(max_digits=10, decimal_places=2)  
     status = models.CharField(
-        max_length=10,
+        max_length=11,
         choices=StatusPedido.choices,
         default=StatusPedido.PENDENTE
     )
+    
+    def __str__(self):
+        return f"{self.pedido_por} - Em {self.data_pedido.strftime('%d/%m/%Y')}"
 
     
     
@@ -90,5 +100,8 @@ class ItemPedido(models.Model):
     produto = models.ForeignKey(Produto, on_delete=models.PROTECT)
     nome_produto = models.CharField(max_length=255)
     quantidade = models.PositiveIntegerField()
-    preco = models.DecimalField(max_digits=10, decimal_places=2)     
+    preco = models.DecimalField(max_digits=10, decimal_places=2)
+    
+    def __str__(self):
+        return f"{self.pedido} - {self.produto} - {self.quantidade}"     
     

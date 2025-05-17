@@ -1,0 +1,64 @@
+{% extends "paginasweb/modelos/index.html" %}
+{% load static %}
+
+{% block header %}
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5">
+        <div class="text-center text-white">
+            <h4 class="display-4 fw-bolder m-5">
+                Categoria
+            </h4>
+            <a href="{% url 'cadastrar-categoria' %}" class="btn btn-light mb-0">
+                + Adicionar Categoria
+            </a>
+        </div>
+    </div>
+</header>
+{% endblock header %}
+
+{% block conteudo %}
+<style>
+    .outer-container {
+        min-height: calc(100vh - 650px); /* Ajuste conforme a altura do header e footer */
+        display: flex;
+        flex-direction: column;
+    }
+    .inner-container {
+        flex-grow: 1;
+    }
+
+</style>
+
+<div class="outer-container">
+    <div class="inner-container container mt-5 mb-5">
+        <table class="table table-striped">
+            <tr>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Opções</th>
+            </tr>
+            {% for object in object_list %}
+            <tr>
+                <td>{{ object.nome }}</td>
+                <td>{{ object.descricao }}</td>
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Opções
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item link-primary" href="{% url 'editar-categoria' object.pk %}">Editar</a></li>
+                            <li><a class="dropdown-item link-danger" href="{% url 'excluir-categoria' object.pk %}">Excluir</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">Nenhum registro encontrado.</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock conteudo %}
