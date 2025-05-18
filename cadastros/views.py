@@ -10,7 +10,7 @@ from .models import Categoria, SubCategoria, Produto, Usuario, Pedido, ItemPedid
 class CategoriaCreate(CreateView):
     template_name = "cadastros/form.html"
     model = Categoria
-    success_url = reverse_lazy("index")
+    success_url = reverse_lazy("listar-categoria")
     fields = ["nome", "descricao"]
     extra_context = {
         "titulo" : "Cadastro de Categoria"
@@ -19,7 +19,7 @@ class CategoriaCreate(CreateView):
 class SubCategoriaCreate(CreateView):
     template_name = "cadastros/form.html"
     model = SubCategoria
-    success_url = reverse_lazy("index")
+    success_url = reverse_lazy("listar-sub-categoria")
     fields = ["nome", "descricao", "categoria"]
     extra_context = {
         "titulo" : "Cadastro de SubCategoria"
@@ -29,7 +29,7 @@ class SubCategoriaCreate(CreateView):
 class ProdutoCreate(CreateView):
     template_name = "cadastros/form.html"
     model = Produto
-    success_url = reverse_lazy("index")
+    success_url = reverse_lazy("listar-produto")
     fields = ["nome", "descricao", "preco", "estoque", "sub_categoria"]
     extra_context = {
         "titulo": "Cadastro de Produto"
@@ -39,7 +39,7 @@ class ProdutoCreate(CreateView):
 class UsuarioCreate(CreateView):
     template_name = "cadastros/form.html"
     model = Usuario
-    success_url = reverse_lazy("index")
+    success_url = reverse_lazy("listar-usuario")
     fields = ["nome", "email", "endereco", "telefone", "cpf", "tipo"]
     extra_context = {
         "titulo": "Cadastro de Usuário"
@@ -64,7 +64,7 @@ class UsuarioCreate(CreateView):
 class PedidoCreate(CreateView):
     template_name = "cadastros/form.html"
     model = Pedido
-    success_url = reverse_lazy("index")
+    success_url = reverse_lazy("listar-pedido")
     fields = ["pedido_por", "total"]
     extra_context = {
         "titulo": "Cadastro de Pedido"
@@ -74,7 +74,7 @@ class PedidoCreate(CreateView):
 class ItemPedidoCreate(CreateView):
     template_name = "cadastros/form.html"
     model = ItemPedido
-    success_url = reverse_lazy("index")
+    success_url = reverse_lazy("listar-item-pedido")
     fields = ["pedido", "produto", "nome_produto", "quantidade","preco"]
     extra_context = {
         "titulo": "Cadastro de Item de Pedido"
@@ -85,7 +85,7 @@ class ItemPedidoCreate(CreateView):
 class CategoriaUpdate(UpdateView):
     template_name = "cadastros/form.html"
     model = Categoria
-    success_url = reverse_lazy("index")
+    success_url = reverse_lazy("listar-categoria")
     fields = ["nome", "descricao"]
     extra_context = {
         "titulo" : "Atualizar dados de Categoria"
@@ -95,7 +95,7 @@ class CategoriaUpdate(UpdateView):
 class SubCategoriaUpdate(UpdateView):
     template_name = "cadastros/form.html"
     model = SubCategoria
-    success_url = reverse_lazy("index")
+    success_url = reverse_lazy("listar-sub-categoria")
     fields = ["nome", "descricao", "categoria"]
     extra_context = {
         "titulo": "Atualizar dados de SubCategoria"
@@ -105,7 +105,7 @@ class SubCategoriaUpdate(UpdateView):
 class ProdutoUpdate(UpdateView):
     template_name = "cadastros/form.html"
     model = Produto
-    success_url = reverse_lazy("index")
+    success_url = reverse_lazy("listar-produto")
     fields = ["nome", "descricao", "preco", "estoque", "sub_categoria"]
     extra_context = {
         "titulo": "Atualizar dados de Produto"
@@ -115,7 +115,7 @@ class ProdutoUpdate(UpdateView):
 class UsuarioUpdate(UpdateView):
     template_name = "cadastros/form.html"
     model = Usuario
-    success_url = reverse_lazy("index")
+    success_url = reverse_lazy("listar-usuario")
     fields = ["nome", "email", "endereco", "telefone", "cpf", "tipo"]
     extra_context = {
         "titulo": "Atualizar dados de Usuário"
@@ -125,7 +125,7 @@ class UsuarioUpdate(UpdateView):
 class PedidoUpdate(UpdateView):
     template_name = "cadastros/form.html"
     model = Pedido
-    success_url = reverse_lazy("index")
+    success_url = reverse_lazy("listar-pedido")
     fields = ["pedido_por", "total"]
     extra_context = {
         "titulo": "Atualizar dados de Pedido"
@@ -135,7 +135,7 @@ class PedidoUpdate(UpdateView):
 class ItemPedidoUpdate(UpdateView):
     template_name = "cadastros/form.html"
     model = ItemPedido
-    success_url = reverse_lazy("index")
+    success_url = reverse_lazy("listar-item-pedido")
     fields = ["pedido", "produto", "nome_produto", "quantidade", "preco"]
     extra_context = {
         "titulo": "Atualizar dados de Item de Pedido"
@@ -147,7 +147,7 @@ class ItemPedidoUpdate(UpdateView):
 class CategoriaDelete(DeleteView):
     template_name = "cadastros/form-excluir.html"
     model = Categoria
-    success_url = reverse_lazy("index")
+    success_url = reverse_lazy("listar-categoria")
     extra_context = {
         "titulo": "Excluir Categoria"
     }
@@ -156,7 +156,7 @@ class CategoriaDelete(DeleteView):
 class SubCategoriaDelete(DeleteView):
     template_name = "cadastros/form-excluir.html"
     model = SubCategoria
-    success_url = reverse_lazy("index")
+    success_url = reverse_lazy("listar-sub-categoria")
     extra_context = {
         "titulo": "Excluir Sub Categoria"
     }
@@ -165,7 +165,7 @@ class SubCategoriaDelete(DeleteView):
 class ProdutoDelete(DeleteView):
     template_name = "cadastros/form-excluir.html"
     model = Produto
-    success_url = reverse_lazy("index")
+    success_url = reverse_lazy("listar-produto")
     extra_context = {
         "titulo": "Excluir Produto"
     }
@@ -174,7 +174,7 @@ class ProdutoDelete(DeleteView):
 class UsuarioDelete(DeleteView):
     template_name = "cadastros/form-excluir.html"
     model = Usuario
-    success_url = reverse_lazy("index")
+    success_url = reverse_lazy("listar-usuario")
     extra_context = {
         "titulo": "Excluir Usuário"
     }
@@ -183,7 +183,7 @@ class UsuarioDelete(DeleteView):
 class PedidoDelete(DeleteView):
     template_name = "cadastros/form-excluir.html"
     model = Pedido
-    success_url = reverse_lazy("index")
+    success_url = reverse_lazy("listar-pedido")
     extra_context = {
         "titulo": "Excluir Pedido"
     }
@@ -192,7 +192,7 @@ class PedidoDelete(DeleteView):
 class ItemPedidoDelete(DeleteView):
     template_name = "cadastros/form-excluir.html"
     model = ItemPedido
-    success_url = reverse_lazy("index")
+    success_url = reverse_lazy("listar-item-pedido")
     extra_context = {
         "titulo": "Excluir Item do Pedido"
     }
@@ -207,7 +207,7 @@ class CategoriaList(ListView):
 
 
 class SubCategoriaList(ListView):
-    template_name = "cadastros/listas/sub-categoria.html"
+    template_name = "cadastros/listas/subCategoria.html"
     model = SubCategoria
 
 
@@ -226,7 +226,7 @@ class PedidoList(ListView):
 
 
 class ItemPedidoList(ListView):
-    template_name = "cadastros/listas/item-pedido.html"
+    template_name = "cadastros/listas/itemPedido.html"
     model = ItemPedido
     
     

@@ -6,10 +6,10 @@
     <div class="container px-4 px-lg-5">
         <div class="text-center text-white">
             <h4 class="display-4 fw-bolder m-5">
-                Categoria
+                Item Pedido
             </h4>
-            <a href="{% url 'cadastrar-categoria' %}" class="btn btn-light mb-0">
-                + Adicionar Categoria
+            <a href="{% url 'cadastrar-item-pedido' %}" class="btn btn-light mb-0">
+                + Adicionar Item Pedido
             </a>
         </div>
     </div>
@@ -33,22 +33,26 @@
     <div class="inner-container container mt-5 mb-5">
         <table class="table table-striped">
             <tr>
-                <th>Nome</th>
-                <th>Descrição</th>
+                <th>Cliente</th>
+                <th>Produto</th>
+                <th>Quantidade</th>
+                <th>Preço</th>
                 <th>Opções</th>
             </tr>
             {% for object in object_list %}
             <tr>
-                <td>{{ object.nome }}</td>
-                <td>{{ object.descricao }}</td>
+                <td>{{ object.pedido }}</td>
+                <td>{{ object.nome_produto }}</td>
+                <td>{{ object.quantidade }}</td>
+                <td>{{ object.preco }}</td>
                 <td>
                     <div class="dropdown">
                         <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Opções
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item link-primary" href="{% url 'editar-categoria' object.pk %}">Editar</a></li>
-                            <li><a class="dropdown-item link-danger" href="{% url 'excluir-categoria' object.pk %}">Excluir</a></li>
+                            <li><a class="dropdown-item link-primary" href="{% url 'editar-item-pedido' object.pk %}">Editar</a></li>
+                            <li><a class="dropdown-item link-danger" href="{% url 'excluir-item-pedido' object.pk %}">Excluir</a></li>
                         </ul>
                     </div>
                 </td>

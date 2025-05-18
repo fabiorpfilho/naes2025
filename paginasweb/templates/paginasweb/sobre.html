@@ -22,11 +22,37 @@
     <div class="container px-4 px-lg-5">
         <div class="row justify-content-center">
             <div class="col-lg-10">
-                <h2 class="fw-bolder mb-4">Descrição do proejto</h2>  
-                <p class="lead fw-light mb-4">Falar do objetivo e funcionalidades</p>
+                <h2 class="fw-bolder mb-4">Descrição do projeto</h2>  
+                <p class="lead fw-light mb-4">Objetivo geral e funcionalidades principais</p>
                 <p class="mb-4">
-                    Aqui você vai descrever o seu software, considerando o objetivo geral e os objetivos específicos, podendo listá-los.
+                    Este projeto tem como objetivo o desenvolvimento de um sistema web para uma loja virtual de multi-nichos, que comercializa uma variedade de produtos em categorias distintas como utilidades domésticas, itens pet, maquiagem e decoração. A estrutura do sistema visa oferecer uma navegação intuitiva por meio da organização hierárquica de categorias e subcategorias, facilitando a busca e o acesso aos produtos.
                 </p>
+                
+                <h4 class="fw-semibold mb-2">Objetivo Geral</h4>
+                <p class="mb-4">
+                    Criar uma plataforma e-commerce funcional e escalável, que permita ao administrador cadastrar produtos e gerenciar pedidos, e ao cliente visualizar e comprar produtos de forma simples, rápida e segura.
+                </p>
+                
+                <h4 class="fw-semibold mb-2">Objetivos Específicos</h4>
+                <ul class="mb-4">
+                    <li>Criar uma estrutura hierárquica de categorias e subcategorias para organização dos produtos;</li>
+                    <li>Permitir o cadastro, edição e exclusão de produtos vinculados a subcategorias específicas;</li>
+                    <li>Gerenciar estoque e preços dos produtos cadastrados;</li>
+                    <li>Permitir que usuários se cadastrem, realizem login e efetuem compras no sistema;</li>
+                    <li>Registrar e controlar os pedidos realizados pelos usuários, com acompanhamento de status (pendente, pago, enviado, entregue, etc.);</li>
+                    <li>Oferecer uma interface clara e acessível tanto para clientes quanto para administradores.</li>
+                </ul>
+                
+                <h4 class="fw-semibold mb-2">Funcionalidades principais</h4>
+                <ul class="mb-4">
+                    <li>Cadastro e gerenciamento de produtos e categorias;</li>
+                    <li>Cadastro de usuários com distinção entre clientes e administradores;</li>
+                    <li>Criação e controle de pedidos com registro de itens, quantidade e valor total;</li>
+                    <li>Acompanhamento do status dos pedidos;</li>
+                    <li>Validação de dados como CPF e e-mail únicos;</li>
+                    <li>Modelagem clara com uso de relações entre classes (Categoria, SubCategoria, Produto, Pedido, etc.).</li>
+                </ul>
+                
                 <div class="">
                     <h3 class="fw-semibold mb-3">Diagrama de Caso de Uso</h3>
                     <p>Um <strong>Diagrama de Caso de Uso</strong> é uma ferramenta visual que descreve a funcionalidade de um sistema do ponto de vista do usuário (ou "ator"). Ele mostra:</p>
@@ -36,6 +62,9 @@
                         <li class="list-group-item"><strong>Relacionamentos:</strong> Como os casos de uso se relacionam entre si e com os atores (ex: inclusão, extensão, generalização).</li>
                     </ul>
                     <p>Em resumo, ele responde à pergunta: <strong>"O que o sistema faz?"</strong> e para quem. É útil para entender os requisitos do sistema e definir seu escopo.</p>
+                    <p class="text-center bg-white p-4">
+                        <img src="{% static "img/diagrama_caso_uso.png" %}" alt="" class="img-fluid">
+                    </p>
                 </div>
 
                 <div class="">
@@ -56,9 +85,7 @@
 
 
 
-                <h3 class="fw-semibold mt-5 mb-3">Conclusão</h3>
-                <p>Utilizar diagramas é uma prática essencial para equipes que desejam desenvolver sistemas de forma clara, organizada e eficiente. Eles promovem alinhamento, reduzem erros e otimizam a comunicação técnica.</p>
-            </div>
+                 </div>
         </div>
     </div>
 </section>
