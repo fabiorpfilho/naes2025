@@ -40,7 +40,7 @@ class UsuarioCreate(CreateView):
     template_name = "cadastros/form.html"
     model = Usuario
     success_url = reverse_lazy("listar-usuario")
-    fields = ["nome", "email", "endereco", "telefone", "cpf", "tipo"]
+    fields = ["nome", "endereco", "telefone", "cpf", "tipo"]
     extra_context = {
         "titulo": "Cadastro de Usuário"
     }
@@ -75,7 +75,7 @@ class ItemPedidoCreate(CreateView):
     template_name = "cadastros/form.html"
     model = ItemPedido
     success_url = reverse_lazy("listar-item-pedido")
-    fields = ["pedido", "produto", "nome_produto", "quantidade","preco"]
+    fields = ["pedido", "produto", "quantidade"]
     extra_context = {
         "titulo": "Cadastro de Item de Pedido"
     }

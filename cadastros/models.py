@@ -48,8 +48,7 @@ class TipoUsuario(models.TextChoices):
 
 class Usuario(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
-    nome = models.CharField(max_length=255)       
-    email = models.EmailField()     
+    nome = models.CharField(max_length=255)          
     endereco = models.CharField(max_length=255)   
     telefone = models.CharField(max_length=20)
     cpf = models.CharField(max_length=14, unique=True) 
@@ -96,7 +95,8 @@ class Pedido(models.Model):
     
     
 class ItemPedido(models.Model):
-    pedido = models.ForeignKey(Pedido, on_delete=models.PROTECT)
+    pedido_por = models.ForeignKey(Usuario, on_delete=models.PROTECT)
+    pedido = models.ForeignKey(Pedido, on_delete=models.PROTECT, null=True)
     produto = models.ForeignKey(Produto, on_delete=models.PROTECT)
     nome_produto = models.CharField(max_length=255)
     quantidade = models.PositiveIntegerField()
@@ -105,3 +105,7 @@ class ItemPedido(models.Model):
     def __str__(self):
         return f"{self.pedido} - {self.produto} - {self.quantidade}"     
     
+
+    # Adicionar usuario no itempedido, para vincular no carrinho a qual usuario ele pertence, se não todos podem ver
+    # Mudado pedido para poder ser nulo, que dai vai sinalizar que esse item está no carrinho e não um pedido feito
+    # Removido email do Usuário pois User ja resolve isso, assim como senha, que só estava no diagrama
