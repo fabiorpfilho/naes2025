@@ -47,7 +47,7 @@ class TipoUsuario(models.TextChoices):
  
 
 class Usuario(models.Model):
-    usuario = models.OneToOneField(User, on_delete=models.CASCADE)
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE, related_name="usuario")
     nome = models.CharField(max_length=255)          
     endereco = models.CharField(max_length=255)   
     telefone = models.CharField(max_length=20)
