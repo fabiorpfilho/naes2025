@@ -81,24 +81,24 @@ WSGI_APPLICATION = "naes2025.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
-#     }
-# }
-
-
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "postgres",
-        "USER": "postgres.qxtfinzorrtufawivvkj",
-        "PASSWORD": "san01xlz",
-        "HOST": "aws-0-sa-east-1.pooler.supabase.com",
-        "PORT": "6543",
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": "postgres",
+#         "USER": "postgres.qxtfinzorrtufawivvkj",
+#         "PASSWORD": "san01xlz",
+#         "HOST": "aws-0-sa-east-1.pooler.supabase.com",
+#         "PORT": "6543",
+#     }
+# }
 
 
 # Password validation
@@ -132,12 +132,12 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
+# Static files (CSS, JavaScript, Images)s
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
 STATICFILES_DIRS = [ BASE_DIR / "static" ]
-STATIC_ROOT = 'static_gcloud/'
+STATIC_ROOT = BASE_DIR / 'static_gcloud/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
