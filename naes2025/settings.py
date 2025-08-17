@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     # ativar meus apps
     "paginasweb.apps.PaginaswebConfig",
     "cadastros.apps.CadastrosConfig",
+    "usuario.apps.UsuarioConfig",
     
     "crispy_forms",
     "crispy_bootstrap5",
@@ -146,3 +147,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
+
+# Configuração de autenticação
+
+# Nome da URL em que o usuário será redirecionado
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'index'
+LOGIN_URL = 'login'

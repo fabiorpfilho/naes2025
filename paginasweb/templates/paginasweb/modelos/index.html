@@ -31,7 +31,7 @@
     {% block menu %}
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="#!">Start Bootstrap</a>
+        <a class="navbar-brand" href="{% url 'index' %}">Loja</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -45,31 +45,32 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-            <li class="nav-item">
-              <a
-                class="nav-link active"
-                aria-current="page"
-                href="{% url 'index' %}"
-                >Home</a
-              >
-            </li>
+
             <li class="nav-item">
               <a class="nav-link" href="{% url 'sobre' %}">Sobre</a>
             </li>
+            {% if request.user.is_authenticated %}
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Cadastros
                 </a>
                 <ul class="dropdown-menu">
+                    
+                    <!-- <li><a class="dropdown-item" href="{% url "listar-usuario" %}">Teste {{ request.user.is_superuser }}</a></li> -->
+                    {% if request.user.is_superuser  %}
                     <li><a class="dropdown-item" href="{% url "listar-usuario" %}">Usuario</a></li>
                     <li><a class="dropdown-item"  href="{% url "listar-categoria" %}">Categoria</a></li>
                     <li><a class="dropdown-item" href="{% url "listar-sub-categoria" %}">Sub Categoria</a></li>
+                    
                     <li><hr class="dropdown-divider"></li>
+                    {% endif %}
                     <li><a class="dropdown-item" href="{% url "listar-produto" %}">Produto</a></li>
                     <li><a class="dropdown-item" href="{% url "listar-pedido" %}">Pedido</a></li>
                     <li><a class="dropdown-item" href="{% url "listar-item-pedido" %}">Item Pedido</a></li>
                 </ul>
             </li>
+            {% endif %}
+
             <li class="nav-item dropdown">
               <a
                 class="nav-link dropdown-toggle"
@@ -87,13 +88,39 @@
                 <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
               </ul>
             </li>
+
           </ul>
+          
           <form class="d-flex">
+            
+          {% if request.user.is_authenticated %}
             <button class="btn btn-outline-dark" type="submit">
               <i class="bi-cart-fill me-1"></i>
               Cart
               <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
             </button>
+
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+              <li class="m-1">
+                  <a class="btn btn-sm btn-dark" href="{% url "alterar-senha" %}">Alterar Senha</a>
+              </li>
+
+              <li class="m-1">
+                <a class="btn btn-sm btn-outline-dark" href="{% url "logout" %}">Sair</a>
+              </li>
+            </ul>
+
+          {% else %}
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+              <li class="m-1">
+                  <a class="btn btn-sm btn-dark" href="{% url "login" %}">Entrar</a>
+              </li>
+                            
+              <li class="m-1">
+                <a class="btn btn-sm btn-outline-dark" href="{% url "registrar" %}">Registrar</a>
+              </li>
+          </ul>
+            {% endif %}
           </form>
         </div>
       </div>

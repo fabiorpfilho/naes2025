@@ -2,12 +2,19 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
+from django.shortcuts import get_object_or_404
 
 from django.urls import reverse_lazy
 
 from .models import Categoria, SubCategoria, Produto, Usuario, Pedido, ItemPedido
 
-class CategoriaCreate(CreateView):
+# View para controle de autenticação e acesso às páginas
+from django.contrib.auth.mixins import LoginRequiredMixin
+from braces.views import GroupRequiredMixin
+
+class CategoriaCreate(GroupRequiredMixin, LoginRequiredMixin, CreateView):
+    group_required = "Administrador"
+    login_url = reverse_lazy('login')
     template_name = "cadastros/form.html"
     model = Categoria
     success_url = reverse_lazy("listar-categoria")
@@ -16,7 +23,9 @@ class CategoriaCreate(CreateView):
         "titulo" : "Cadastro de Categoria"
     }
     
-class SubCategoriaCreate(CreateView):
+class SubCategoriaCreate(GroupRequiredMixin, LoginRequiredMixin, CreateView):
+    group_required = "Administrador"
+    login_url = reverse_lazy('login')
     template_name = "cadastros/form.html"
     model = SubCategoria
     success_url = reverse_lazy("listar-sub-categoria")
@@ -26,7 +35,9 @@ class SubCategoriaCreate(CreateView):
     }  
     
 
-class ProdutoCreate(CreateView):
+class ProdutoCreate(GroupRequiredMixin, LoginRequiredMixin, CreateView):
+    group_required = "Administrador"
+    login_url = reverse_lazy('login')
     template_name = "cadastros/form.html"
     model = Produto
     success_url = reverse_lazy("listar-produto")
@@ -36,7 +47,9 @@ class ProdutoCreate(CreateView):
     }
 
 
-class UsuarioCreate(CreateView):
+class UsuarioCreate(GroupRequiredMixin, LoginRequiredMixin, CreateView):
+    group_required = "Administrador"
+    login_url = reverse_lazy('login')
     template_name = "cadastros/form.html"
     model = Usuario
     success_url = reverse_lazy("listar-usuario")
@@ -61,17 +74,24 @@ class UsuarioCreate(CreateView):
 
     
 
-class PedidoCreate(CreateView):
+class PedidoCreate(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login')
     template_name = "cadastros/form.html"
     model = Pedido
     success_url = reverse_lazy("listar-pedido")
-    fields = ["pedido_por", "total"]
+    fields = ["total"]
     extra_context = {
         "titulo": "Cadastro de Pedido"
     }
     
+    def form_valid(self, form):
+        # Define o usuário como usuário logado
+        form.instance.pedido_por = self.request.user.usuario
+        return super().form_valid(form)
+    
 
-class ItemPedidoCreate(CreateView):
+class ItemPedidoCreate(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login')
     template_name = "cadastros/form.html"
     model = ItemPedido
     success_url = reverse_lazy("listar-item-pedido")
@@ -80,9 +100,16 @@ class ItemPedidoCreate(CreateView):
         "titulo": "Cadastro de Item de Pedido"
     }
     
+    def form_valid(self, form):
+        # Define o usuário como usuário logado
+        form.instance.pedido_por = self.request.user.usuario
+        return super().form_valid(form)
+    
 ###############################################################
     
-class CategoriaUpdate(UpdateView):
+class CategoriaUpdate(GroupRequiredMixin, LoginRequiredMixin, UpdateView):
+    group_required = "Administrador"
+    login_url = reverse_lazy('login')
     template_name = "cadastros/form.html"
     model = Categoria
     success_url = reverse_lazy("listar-categoria")
@@ -92,7 +119,9 @@ class CategoriaUpdate(UpdateView):
     } 
     
     
-class SubCategoriaUpdate(UpdateView):
+class SubCategoriaUpdate(GroupRequiredMixin, LoginRequiredMixin, UpdateView):
+    group_required = "Administrador"
+    login_url = reverse_lazy('login')
     template_name = "cadastros/form.html"
     model = SubCategoria
     success_url = reverse_lazy("listar-sub-categoria")
@@ -102,7 +131,9 @@ class SubCategoriaUpdate(UpdateView):
     }
 
 
-class ProdutoUpdate(UpdateView):
+class ProdutoUpdate(GroupRequiredMixin, LoginRequiredMixin, UpdateView):
+    group_required = "Administrador"
+    login_url = reverse_lazy('login')
     template_name = "cadastros/form.html"
     model = Produto
     success_url = reverse_lazy("listar-produto")
@@ -112,7 +143,9 @@ class ProdutoUpdate(UpdateView):
     }
 
 
-class UsuarioUpdate(UpdateView):
+class UsuarioUpdate(GroupRequiredMixin, LoginRequiredMixin, UpdateView):
+    group_required = "Administrador"
+    login_url = reverse_lazy('login')
     template_name = "cadastros/form.html"
     model = Usuario
     success_url = reverse_lazy("listar-usuario")
@@ -122,7 +155,8 @@ class UsuarioUpdate(UpdateView):
     }
 
 
-class PedidoUpdate(UpdateView):
+class PedidoUpdate(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
     template_name = "cadastros/form.html"
     model = Pedido
     success_url = reverse_lazy("listar-pedido")
@@ -130,9 +164,13 @@ class PedidoUpdate(UpdateView):
     extra_context = {
         "titulo": "Atualizar dados de Pedido"
     }
+    def get_object(self, queryset=None):
+        self.object = get_object_or_404(Pedido, pk=self.kwargs['pk'], pedido_por=self.request.user.usuario)
+        return self.object
 
 
-class ItemPedidoUpdate(UpdateView):
+class ItemPedidoUpdate(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
     template_name = "cadastros/form.html"
     model = ItemPedido
     success_url = reverse_lazy("listar-item-pedido")
@@ -140,11 +178,16 @@ class ItemPedidoUpdate(UpdateView):
     extra_context = {
         "titulo": "Atualizar dados de Item de Pedido"
     }
+    def get_object(self, queryset=None):
+        self.object = get_object_or_404(ItemPedido, pk=self.kwargs['pk'], pedido_por=self.request.user.usuario)
+        return self.object
     
 ###############################################################
 
 
-class CategoriaDelete(DeleteView):
+class CategoriaDelete(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('login')
+    group_required = "Administrador"
     template_name = "cadastros/form-excluir.html"
     model = Categoria
     success_url = reverse_lazy("listar-categoria")
@@ -153,7 +196,9 @@ class CategoriaDelete(DeleteView):
     }
 
 
-class SubCategoriaDelete(DeleteView):
+class SubCategoriaDelete(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
+    group_required = "Administrador"
+    login_url = reverse_lazy('login')
     template_name = "cadastros/form-excluir.html"
     model = SubCategoria
     success_url = reverse_lazy("listar-sub-categoria")
@@ -162,7 +207,9 @@ class SubCategoriaDelete(DeleteView):
     }
 
 
-class ProdutoDelete(DeleteView):
+class ProdutoDelete(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
+    group_required = "Administrador"
+    login_url = reverse_lazy('login')
     template_name = "cadastros/form-excluir.html"
     model = Produto
     success_url = reverse_lazy("listar-produto")
@@ -171,7 +218,9 @@ class ProdutoDelete(DeleteView):
     }
 
 
-class UsuarioDelete(DeleteView):
+class UsuarioDelete(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
+    group_required = "Administrador"
+    login_url = reverse_lazy('login')
     template_name = "cadastros/form-excluir.html"
     model = Usuario
     success_url = reverse_lazy("listar-usuario")
@@ -180,54 +229,82 @@ class UsuarioDelete(DeleteView):
     }
 
 
-class PedidoDelete(DeleteView):
+class PedidoDelete(LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('login')
     template_name = "cadastros/form-excluir.html"
     model = Pedido
     success_url = reverse_lazy("listar-pedido")
     extra_context = {
         "titulo": "Excluir Pedido"
     }
+    def get_object(self, queryset=None):
+        self.object = get_object_or_404(Pedido, pk=self.kwargs['pk'], pedido_por=self.request.user.usuario)
+        return self.object
 
 
-class ItemPedidoDelete(DeleteView):
+class ItemPedidoDelete(LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('login')
     template_name = "cadastros/form-excluir.html"
     model = ItemPedido
     success_url = reverse_lazy("listar-item-pedido")
     extra_context = {
         "titulo": "Excluir Item do Pedido"
     }
+    def get_object(self, queryset=None):
+        self.object = get_object_or_404(ItemPedido, pk=self.kwargs['pk'], pedido_por=self.request.user.usuario)
+        return self.object
     
 
 ###############################################################
 
 
-class CategoriaList(ListView):
+class CategoriaList(GroupRequiredMixin, LoginRequiredMixin, ListView):
+    group_required = "Administrador"
+    login_url = reverse_lazy('login')
     template_name = "cadastros/listas/categoria.html"
     model = Categoria
 
 
-class SubCategoriaList(ListView):
+class SubCategoriaList(GroupRequiredMixin, LoginRequiredMixin, ListView):
+    group_required = "Administrador"
+    login_url = reverse_lazy('login')
     template_name = "cadastros/listas/subCategoria.html"
     model = SubCategoria
 
 
-class ProdutoList(ListView):
+class ProdutoList(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy('login')
     template_name = "cadastros/listas/produto.html"
     model = Produto
 
 
-class UsuarioList(ListView):
+class UsuarioList(GroupRequiredMixin, LoginRequiredMixin, ListView):
+    group_required = "Administrador"
+    login_url = reverse_lazy('login')
     template_name = "cadastros/listas/usuario.html"
     model = Usuario
 
-class PedidoList(ListView):
+class PedidoList(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy('login')
     template_name = "cadastros/listas/pedido.html"
     model = Pedido
+    
+    def get_queryset(self):
+        # O object_list armazena uma lista de objetos de um ListView
+        self.object_list = Pedido.objects.filter(pedido_por=self.request.user.usuario)
+        return self.object_list
 
 
-class ItemPedidoList(ListView):
+class ItemPedidoList(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy('login')
     template_name = "cadastros/listas/itemPedido.html"
     model = ItemPedido
+    
+    def get_queryset(self):
+        # O object_list armazena uma lista de objetos de um ListView
+        self.object_list = ItemPedido.objects.filter(pedido_por=self.request.user.usuario)
+        return self.object_list
+    
     
     
 # class CategoriaList(ListView):

@@ -22,5 +22,6 @@ urlpatterns = [
     
     # incluir as urls dos apps
     path("", include("paginasweb.urls")),
-    path("cadastro/", include("cadastros.urls"))
+    path("cadastro/", include("cadastros.urls")),
+    path("", include("usuario.urls")),
 ]

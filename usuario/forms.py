@@ -8,6 +8,17 @@ from django import forms
 # E outros campos, se necessário
 class UsuarioCadastroForm(UserCreationForm):
 
+    TIPOS = [
+        ("Administrador", "Administrador"),
+        ("Cliente", "Cliente")
+    ]
+   
+   
+    nome = forms.CharField(required=True, max_length=255)
+    endereco = forms.CharField(required=True, max_length=50, label="Endereço")
+    cpf = forms.CharField(required=True, max_length=14, label="CPF")
+    telefone = forms.CharField(required=True, max_length=20, label="Telefone")
+    tipo_usuario = forms.ChoiceField(choices=TIPOS, label="Tipo de usuário")
 
     email = forms.EmailField(required=True, help_text="Informe um email válido.")
 
@@ -16,7 +27,9 @@ class UsuarioCadastroForm(UserCreationForm):
     class Meta:
         model = User
         # Esses dois passwords são para verificar se as senhas são iguais
-        fields = ['username', 'email', 'password1', 'password2']
+        fields = [ 'nome', 'endereco', 'telefone',
+                    'cpf', 'username', 'email',
+                    'password1', 'password2' ]
 
 
     # O metodo clean no forms serve de validação para os campos
