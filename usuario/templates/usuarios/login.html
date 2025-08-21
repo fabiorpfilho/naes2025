@@ -34,7 +34,7 @@
     <div class="inner-container container mt-5 mb-5">
     <div class="row justify-content-center align-items-center flex-grow-1">
         <div class="col-lg-6">
-        {% if request.user.is_authenticated %}
+        {% if request.user.is_authenticated and titulo == "Autenticação" %}
             <h4 class="mt-4 text-danger">Você já está autenticado!</h4>
             Redirecionando para a página inicial em 5 segundos...
             <meta http-equiv="Refresh" content="5; url={% url 'index' %}" />

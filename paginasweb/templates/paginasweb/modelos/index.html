@@ -447,6 +447,81 @@
         </div>
       </div>
     </section>
+
+    <section class="py-5">
+      <div class="container px-4 px-lg-5 mt-5">
+        <h2 class="text-center mb-4">Últimos Produtos</h2>
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+          {% for produto in ultimos_produtos %}
+          <div class="col mb-5">
+            <div class="card h-100">
+              <!-- Product image-->
+              <img class="card-img-top" src="{% if produto.imagem %}{% static produto.imagem %}{% else %}https://dummyimage.com/450x300/dee2e6/6c757d.jpg{% endif %}" alt="{{ produto.nome }}" />
+              <!-- Product details-->
+              <div class="card-body p-4">
+                <div class="text-center">
+                  <!-- Product name-->
+                  <h5 class="fw-bolder">{{ produto.nome }}</h5>
+                  <!-- Product price-->
+                  {% if produto.preco %}
+                  R$ {{ produto.preco|floatformat:2 }}
+                  {% else %}
+                  Preço não disponível
+                  {% endif %}
+                </div>
+              </div>
+              <!-- Product actions-->
+              <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                <div class="text-center">
+                  <a class="btn btn-outline-dark mt-auto"   >Ver detalhes</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% empty %}
+          <div class="col-12 text-center">
+            <p class="text-muted">Nenhum produto disponível no momento.</p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="py-5 bg-light">
+      <div class="container px-4 px-lg-5">
+        <h2 class="text-center mb-4">Movimentações</h2>
+        <div class="row gx-4 gx-lg-5 row-cols-1 row-cols-md-3 justify-content-center">
+          <!-- Card for Total Products -->
+          <div class="col mb-4">
+            <div class="card h-100 shadow-sm">
+              <div class="card-body text-center">
+                <h5 class="card-title fw-bolder">Produtos</h5>
+                <p class="card-text display-6">{{ qtde_produto }}</p>
+              </div>
+            </div>
+          </div>
+          <!-- Card for Total Orders -->
+          <div class="col mb-4">
+            <div class="card h-100 shadow-sm">
+              <div class="card-body text-center">
+                <h5 class="card-title fw-bolder">Pedidos Feitos</h5>
+                <p class="card-text display-6">{{ qtde_pedido }}</p>
+              </div>
+            </div>
+          </div>
+          <!-- Card for Total Value -->
+          <div class="col mb-4">
+            <div class="card h-100 shadow-sm">
+              <div class="card-body text-center">
+                <h5 class="card-title fw-bolder">Valor Total de Pedidos</h5>
+                <p class="card-text display-6">R$ {{ vr_total|floatformat:2 }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
     {% endblock conteudo %}
 
     <!-- Footer-->
