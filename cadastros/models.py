@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django import forms
 # Create your models here.
 
 
@@ -41,8 +42,8 @@ class Produto(models.Model):
         
 
 class TipoUsuario(models.TextChoices):
-    ADMIN = 'ADMIN', 'Administrador'
-    CLIENTE = 'CLIENTE', 'Cliente'
+    ADMINISTRADOR = 'Administrador', 'Administrador'
+    CLIENTE = 'Cliente', 'Cliente'
  
 
 class Usuario(models.Model):
@@ -52,21 +53,13 @@ class Usuario(models.Model):
     telefone = models.CharField(max_length=20)
     cpf = models.CharField(max_length=14, unique=True) 
     tipo = models.CharField(
-        max_length=10,
+        max_length=20,
         choices=TipoUsuario.choices,
         default=TipoUsuario.CLIENTE
     )
 
     def __str__(self):
         return f'{self.nome}'
-
-    def clean_email(self):
-        email = self.cleaned_data.get('email')
-        # Verifica se o email já está sendo usado como username em auth_user
-        if User.objects.filter(username=email).exists():
-            raise forms.ValidationError("Este e-mail já está registrado.")
-        return email
-    
 
 class StatusPedido(models.TextChoices):
     PENDENTE = 'PENDENTE', 'Pendente'

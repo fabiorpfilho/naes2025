@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 
 from .models import Categoria, SubCategoria, Produto, Usuario, Pedido, ItemPedido
-
+from .forms import ItemPedidoForm
 # View para controle de autenticação e acesso às páginas
 from django.contrib.auth.mixins import LoginRequiredMixin
 from braces.views import GroupRequiredMixin
@@ -90,19 +90,38 @@ class PedidoCreate(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
     
 
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
+from .models import ItemPedido, Usuario, Produto
+
 class ItemPedidoCreate(LoginRequiredMixin, CreateView):
     login_url = reverse_lazy('login')
     template_name = "cadastros/form.html"
     model = ItemPedido
+    form_class = ItemPedidoForm
     success_url = reverse_lazy("listar-item-pedido")
-    fields = ["pedido", "produto", "quantidade"]
     extra_context = {
         "titulo": "Cadastro de Item de Pedido"
     }
     
+    def get_form(self, form_class=None):
+        # Passa o usuário logado para o formulário
+        if form_class is None:
+            form_class = self.form_class
+        return form_class(user=self.request.user, **self.get_form_kwargs())
+    
     def form_valid(self, form):
         # Define o usuário como usuário logado
         form.instance.pedido_por = self.request.user.usuario
+        
+        # Obtém o produto selecionado do formulário
+        produto = form.cleaned_data['produto']
+        
+        # Define o nome do produto e o preço com base no objeto Produto
+        form.instance.nome_produto = produto.nome
+        form.instance.preco = produto.preco
+        
         return super().form_valid(form)
     
 ###############################################################
@@ -290,10 +309,16 @@ class PedidoList(LoginRequiredMixin, ListView):
     model = Pedido
     
     def get_queryset(self):
-        # O object_list armazena uma lista de objetos de um ListView
-        self.object_list = Pedido.objects.filter(pedido_por=self.request.user.usuario)
-        return self.object_list
-
+        print("Usuário: ", self.request.user)
+        # Verifica se o usuário pertence ao grupo "Administrador"
+        if self.request.user.groups.filter(name='Administrador').exists():
+            # Para administradores, retorna todos os pedidos
+            queryset = Pedido.objects.all()
+        else:
+            # Para usuários comuns, filtra pedidos pelo usuário logado
+            queryset = Pedido.objects.filter(pedido_por=self.request.user.usuario)
+        
+        return queryset
 
 class ItemPedidoList(LoginRequiredMixin, ListView):
     login_url = reverse_lazy('login')
@@ -302,8 +327,13 @@ class ItemPedidoList(LoginRequiredMixin, ListView):
     
     def get_queryset(self):
         # O object_list armazena uma lista de objetos de um ListView
-        self.object_list = ItemPedido.objects.filter(pedido_por=self.request.user.usuario)
-        return self.object_list
+
+        if self.request.user.groups.filter(name='Administrador').exists():
+            # Para administradores, retorna todos os pedidos
+            queryset = ItemPedido.objects.all()
+        else:
+            queryset = ItemPedido.objects.filter(pedido_por=self.request.user.usuario)
+        return queryset
     
     
     

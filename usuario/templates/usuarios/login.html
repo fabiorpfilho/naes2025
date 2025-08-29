@@ -7,7 +7,11 @@
 <header class="bg-dark py-5">
     <div class="container px-4 px-lg-5 my-5">
         <div class="text-center text-white">
+            {% if request.user.is_authenticated and titulo == "Autenticação" %}
+            <h4 class="display-4 fw-bolder">Erro 404</h4>
+            {% else %}
             <h4 class="display-4 fw-bolder">{{ titulo }}</h4>
+            {% endif %}
         </div>
     </div>
 </header>
@@ -35,7 +39,7 @@
     <div class="row justify-content-center align-items-center flex-grow-1">
         <div class="col-lg-6">
         {% if request.user.is_authenticated and titulo == "Autenticação" %}
-            <h4 class="mt-4 text-danger">Você já está autenticado!</h4>
+            <h4 class="mt-4 text-danger">Página não encontrada</h4>
             Redirecionando para a página inicial em 5 segundos...
             <meta http-equiv="Refresh" content="5; url={% url 'index' %}" />
         {% else %}
@@ -57,7 +61,7 @@
                     </button>
                 </p>
             </form>
-            {% endif %}
+        {% endif %}
         </div>
     </div>
 
